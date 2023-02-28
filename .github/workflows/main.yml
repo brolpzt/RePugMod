@@ -1,0 +1,39 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      
+    - name: Add i386 architecture
+      run: sudo dpkg --add-architecture i386
+      
+    - name: Update repository
+      run: sudo apt-get update
+      
+    - name: Install build dependencies
+      run: sudo apt-get install -qq -y build-essential g++ gcc-multilib g++-multilib libcurl4-openssl-dev:i386 zlib1g-dev:i386 libssl-dev:i386      
+
+    - name: Run build
+      working-directory: ./PugMod
+      run: make
+    
+    - name: Move files
+      run: |
+        mkdir -p publish/addons/pugmod/dlls
+        mv ./PugMod/Release/pugmod_mm.so publish/addons/pugmod/dlls
+        cp -ar cstrike/. publish
+    - name: Deploy artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: linux
+        path: publish/*
