@@ -106,19 +106,15 @@ void CReady::List()
 		}
 		else
 		{
-			gUtil.HudMessage(NULL, gUtil.HudParam(0, 255, 0, 0.23, 0.02, 0, 0.0, 0.53, 0.0, 0.0, -1), _T("Not Ready (%d of %d):"), PlayerCount[0], (int)gCvars.GetPlayersMin()->value);
-
-			gUtil.HudMessage(NULL, gUtil.HudParam(0, 255, 0, 0.58, 0.02, 0, 0.0, 0.53, 0.0, 0.0, -1), _T("Ready (%d of %d):"), PlayerCount[1], (int)gCvars.GetPlayersMin()->value);
-
-			gUtil.HudMessage(NULL, gUtil.HudParam(255, 255, 225, 0.23, 0.02, 0, 0.0, 0.53, 0.0, 0.0, -1), "\n%s", PlayerList[0].c_str());
-
-			gUtil.HudMessage(NULL, gUtil.HudParam(255, 255, 225, 0.58, 0.02, 0, 0.0, 0.53, 0.0, 0.0, -1), "\n%s", PlayerList[1].c_str());
+			gUtil.HudMessage(NULL, gUtil.HudParam(0, 255, 0, 0.23, 0.02, 0, 0.0, 0.53, 0.0, 0.0, 1), _T("Not Ready (%d of %d):"), PlayerCount[0], (int)gCvars.GetPlayersMin()->value);
+			gUtil.HudMessage(NULL, gUtil.HudParam(0, 255, 0, 0.58, 0.02, 0, 0.0, 0.53, 0.0, 0.0, 2), _T("Ready (%d of %d):"), PlayerCount[1], (int)gCvars.GetPlayersMin()->value);
+			gUtil.HudMessage(NULL, gUtil.HudParam(255, 255, 225, 0.23, 0.02, 0, 0.0, 0.53, 0.0, 0.0, 3), "\n%s", PlayerList[0].c_str());
+			gUtil.HudMessage(NULL, gUtil.HudParam(255, 255, 225, 0.58, 0.02, 0, 0.0, 0.53, 0.0, 0.0, 4), "\n%s", PlayerList[1].c_str());
 		}
 	}
 	else
 	{
 		int Needed = ((int)gCvars.GetPlayersMin()->value - gPlayer.GetNum());
-
 		time_t CurrentTime = time(NULL);
 
 		if (Needed)
