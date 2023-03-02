@@ -492,6 +492,16 @@ void CPugMod::ResetScores()
 	memset(this->m_Score, 0, sizeof(this->m_Score));
 }
 
+void CPugMod::ResetStateScores()
+{
+	this->m_Round[this->m_State] = 0;
+	
+	for (int i = UNASSIGNED; i <= SPECTATOR; i++)
+	{
+		this->m_Score[this->m_State][i] = 0;
+	}
+}
+
 TeamName CPugMod::GetWinner()
 {
 	if (this->GetScores(TERRORIST) != this->GetScores(CT))
@@ -602,17 +612,19 @@ void CPugMod::LO3(const char* Time)
 
 	if (Delay >= 1.0f && Delay <= 3.0f)
 	{
-		if (g_pGameRules)
-		{
-			CSGameRules()->m_bGameStarted = true;
-		}
-
 		CVAR_SET_STRING("sv_restart", Time);
 
 		gTask.Create(PUG_TASK_LO3R, (Delay + 1.0f), false, (void*)gPugMod.LO3, gUtil.VarArgs("%d", (int)(Delay + 1.0f)));
 	}
 	else
 	{
+		if (g_pGameRules)
+		{
+			CSGameRules()->m_bGameStarted = true;
+		}
+		
+		gPugMod.ResetStateScores();
+		
 		gUtil.HudMessage(NULL, gUtil.HudParam(0, 255, 0, -1.0, 0.2, 0, 10.0, 10.0), _T("--- MATCH IS LIVE ---"));
 	}
 }
